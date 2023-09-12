@@ -24,32 +24,32 @@ def is_valid_name(name):
     # validation logic for string input
     return isinstance(name, str) or not name.isalpha() and len(name) > 0
 
-@app.route('/api', methods=['GET'])
-def get_names():
-    """Get all names."""
-    cur = mysql.connect().cursor()
-    cur.execute('SELECT name FROM persons')
-    names = cur.fetchall()
-    cur.close()
+# @app.route('/api', methods=['GET'])
+# def get_names():
+#     """Get all names."""
+#     cur = mysql.connect().cursor()
+#     cur.execute('SELECT name FROM persons')
+#     names = cur.fetchall()
+#     cur.close()
 
-    return jsonify(names)
+#     return jsonify(names)
 
 
 @app.route('/api/<name>', methods=['GET'])
-# def get_name(name):
-#     """Get a name by name."""
-#     if not isinstance(name, str) or not name.isalpha():
-#         return jsonify({'error': 'Invalid name format'})
-#     else:
-#         cur = mysql.connect().cursor()
-#         cur.execute('SELECT name FROM persons WHERE name = %s', [name])
-#         result = cur.fetchone()
-#         cur.close()
+def get_name(name):
+    """Get a name by name."""
+    if not isinstance(name, str) or not name.isalpha():
+        return jsonify({'error': 'Invalid name format'})
+    else:
+        cur = mysql.connect().cursor()
+        cur.execute('SELECT name FROM persons WHERE name = %s', [name])
+        result = cur.fetchone()
+        cur.close()
 
-#         if result is None:
-#             return jsonify({'error': 'Name not found'})
+        if result is None:
+            return jsonify({'error': 'Name not found'})
 
-#         return jsonify({'name': result[0]})
+        return jsonify({'name': result[0]})
 
 
 @app.route('/api', methods=['POST'])
