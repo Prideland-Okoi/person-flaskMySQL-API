@@ -88,9 +88,10 @@ def update_name(name):
 
         # Check if the name was updated successfully
         if cur.rowcount == 1:
-            return jsonify({'message': 'Name updated'}), 202
+            return jsonify({'message': 'Name updated'})
         else:
-            return jsonify({'error': 'Name not found'}), 404
+            return jsonify({'error': 'Name not found'})
+
         
 # @app.route('/api/<name>', methods=['PATCH'])
 # def patch_name(name):
