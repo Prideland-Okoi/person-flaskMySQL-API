@@ -65,13 +65,12 @@ def create_name():
         if not isinstance(name, str) or  not name.isalpha(): # and len(name) > 2:
             return jsonify({'error': 'Name must be a string'}), 400
 
-        else:
-            # Insert the name into the database
-            cur = mysql.connect().cursor()
-            cur.execute('INSERT INTO persons (name) VALUES (%s)', [name])
-            cur.close()
+        # Insert the name into the database
+        cur = mysql.connect().cursor()
+        cur.execute('INSERT INTO persons (name) VALUES (%s)', [name])
+        cur.close()
 
-            return jsonify({'message': 'Name added to the database successfully'}), 201
+        return jsonify({'message': 'Name added to the database successfully'}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
