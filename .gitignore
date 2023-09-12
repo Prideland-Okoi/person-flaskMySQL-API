@@ -1,0 +1,25 @@
+# Ignore compiled Python files
+*.pyc
+
+# Ignore the virtual environment directory (if you use virtualenv)
+venv/
+
+# Ignore the database configuration file (if you use environment variables)
+.env
+
+# Ignore operating system and IDE-specific files
+__pycache__/
+*.pyproj
+*.pid
+*.pyc
+*.pyo
+*.idea/
+.vscode/
+
+# Ignore log and temporary files
+*.log
+*.swp
+
+# Ignore any sensitive or generated files
+config.py  # If you have a configuration file with sensitive data
+db.sqlite   # If you're using SQLite as your database
