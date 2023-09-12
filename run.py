@@ -6,7 +6,7 @@ if sys.platform.startswith('linux') or sys.platform.startswith('darwin'):
 else:
     # Handle the case where fcntl is not available on Windows
     pass
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
 from flaskext.mysql import MySQL
 from dotenv import load_dotenv
 
@@ -53,12 +53,13 @@ def get_names():
 
 
 @app.route('/api', methods=['POST'])
-def create_name(name):
+def create_name():
     """Create a new name."""
     try:
         # Get the name from the request body
-        data = request.get_json()
-        name = data.get('name')
+        # data = request.get_json()
+        # name = data.get('name')
+        name = request.form.get('name')
 
         # Validate the name
         if not isinstance(name, str) or  not name.isalpha(): # and len(name) > 2:
