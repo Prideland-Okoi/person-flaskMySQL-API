@@ -53,7 +53,7 @@ def get_names():
 
 
 @app.route('/api', methods=['POST'])
-def create_name():
+def create_name(name):
     """Create a new name."""
     try:
         # Get the name from the request body
