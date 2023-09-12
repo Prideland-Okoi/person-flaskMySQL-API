@@ -52,7 +52,7 @@ def get_names():
 #         return jsonify({'name': result[0]})
 
 
-@app.route('/api/', methods=['POST'])
+@app.route('/api', methods=['POST'])
 def create_name():
     """Create a new name."""
     try:
