@@ -68,12 +68,13 @@ def create_name():
             return jsonify({'error': 'Name must be a string'}), 400
         else:
             # Insert the name into the database
-            cur = mysql.connect().cursor()
-            cur.execute('INSERT INTO persons (name) VALUES (%s)', [name])
+            connection= mysql.connect()
+            cursor = connection.cursor()
+            cursor.execute('INSERT INTO persons (name) VALUES (%s)', [name])
             cur.close()
             
             # Commit changes to the database
-            mysql.commit()
+            connection.commit()
 
             return jsonify({'message': 'Name added to the database successfully', "name":name}), 201
     except Exception as e:
