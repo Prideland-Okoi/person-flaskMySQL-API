@@ -95,7 +95,7 @@ def update_name(name):
         #new_name = request.json.get('new_name')
         connection= mysql.connect()
         cursor = connection.cursor()
-        cursor.execute("""UPDATE persons SET name=%s WHERE name=%s"""(new_name, name))
+        cursor.execute('UPDATE persons SET name=%s WHERE name=%s',[new_name, name])
         #cursor.close()
         
         # Commit changes to the database
