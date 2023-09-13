@@ -57,9 +57,9 @@ def create_name():
     """Create a new name."""
     try:
         # Get the name from the request body
-        # data = request.get_json()
-        # name = data.get('name')
-        name = request.form.get('name')
+        data = request.get_json()
+        name = data.get('name')
+        #name = request.form.get('name')
 
         # Validate the name
         if not isinstance(name, str) or  not name.isalpha(): # and len(name) > 2:
@@ -75,13 +75,15 @@ def create_name():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/api/<name>', methods=['PUT', 'PATCH'])
+@app.route('/api/<name>', methods=['PUT'])
 def update_name(name):
     """Update a name."""
     if not isinstance(name, str)or not name.isalpha():
         return jsonify({'error': 'Name must be a string'})
     else:
-        new_name = request.json.get('name')
+        data = request.get_json()
+        new_name = data.get('new_name')
+        #new_name = request.json.get('new_name')
         cur = mysql.connect().cursor()
         cur.execute('UPDATE persons SET name = %s WHERE name = %s', [new_name, name])
         cur.close()
@@ -91,26 +93,6 @@ def update_name(name):
             return jsonify({'message': 'Name updated'})
         else:
             return jsonify({'error': 'Name not found'})
-
-        
-# @app.route('/api/<name>', methods=['PATCH'])
-# def patch_name(name):
-#     """Patch a name."""
-#     if not isinstance(name, str) or not name.isalpha():
-#         return jsonify({'error': 'Name must be a string'})
-#     else:
-#         new_name = request.json.get('name')
-#         cur = mysql.connect().cursor()
-#         cur.execute('UPDATE persons SET name = %s WHERE name = %s', [new_name, name])
-#         cur.close()
-
-#         # Check if the name was patched successfully
-#         if cur.rowcount == 1:
-#             return jsonify({'message': 'Name patched'}), 202
-#         else:
-#             return jsonify({'error': 'Name not found'}), 404
-
-
 
 @app.route('/api/<name>', methods=['DELETE'])
 def delete_name(name):
@@ -123,7 +105,7 @@ def delete_name(name):
         cur.execute('DELETE FROM persons WHERE name = %s', [name])
         cur.close()
 
-        return jsonify({'message': 'Name deleted'}), 200
+        return jsonify({'message': 'Name deleted', "name":name}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
