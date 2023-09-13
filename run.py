@@ -27,6 +27,7 @@ def is_valid_name(name):
     return isinstance(name, str) or not name.isalpha() and len(name) > 0
 
 @app.route('/api/', methods=['GET'])
+# for testing purpose
 def get_names():
     """Get all names."""
     cur = mysql.connect().cursor()
@@ -71,7 +72,7 @@ def create_name():
             connection= mysql.connect()
             cursor = connection.cursor()
             cursor.execute('INSERT INTO persons (name) VALUES (%s)', [name])
-            cur.close()
+            #cursor.close()
             
             # Commit changes to the database
             connection.commit()
@@ -79,7 +80,7 @@ def create_name():
             return jsonify({'message': 'Name added to the database successfully', "name":name}), 201
     except Exception as e:
         # Rollback changes if an error occurs
-        db_connection.rollback()
+        connection.rollback()
         return jsonify({"error": str(e)}), 500
 
 
