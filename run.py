@@ -93,9 +93,13 @@ def update_name(name):
         data = request.get_json()
         new_name = data.get('new_name')
         #new_name = request.json.get('new_name')
-        cur = mysql.connect().cursor()
-        cur.execute("""UPDATE persons SET name=%s WHERE name=%s"""(new_name, name))
-        cur.close()
+        connection= mysql.connect()
+        cursor = connection.cursor()
+        cursor.execute("""UPDATE persons SET name=%s WHERE name=%s"""(new_name, name))
+        #cursor.close()
+        
+        # Commit changes to the database
+        connection.commit()
 
         # Check if the name was updated successfully
         if cur.rowcount == 1:
@@ -105,16 +109,23 @@ def update_name(name):
 
 @app.route('/api/<name>', methods=['DELETE'])
 def delete_name(name):
-    """Delete a name."""
-    # Validate the name
-    if not is_valid_name(name):
-        return jsonify({"error": "Invalid name"}), 400
-    else:
-        cur = mysql.connect().cursor()
-        cur.execute('DELETE FROM persons WHERE name = %s', [name])
-        cur.close()
+    try:
+        """Delete a name."""
+        # Validate the name
+        if not is_valid_name(name):
+            return jsonify({"error": "Invalid name"}), 400
+        else:
+            connection= mysql.connect()
+            cursor = connection.cursor()
+            cursor.execute('DELETE FROM persons WHERE name = %s', [name])
+            #cur.close()
+            
+            # Commit changes to the database
+            connection.commit()
 
-        return jsonify({'message': 'Name deleted', "name":name}), 200
+            return jsonify({'message': 'Name deleted', "name":name}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
