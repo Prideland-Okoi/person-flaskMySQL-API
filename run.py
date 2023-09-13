@@ -24,15 +24,15 @@ def is_valid_name(name):
     # validation logic for string input
     return isinstance(name, str) or not name.isalpha() and len(name) > 0
 
-# @app.route('/api', methods=['GET'])
-# def get_names():
-#     """Get all names."""
-#     cur = mysql.connect().cursor()
-#     cur.execute('SELECT name FROM persons')
-#     names = cur.fetchall()
-#     cur.close()
+@app.route('/api/', methods=['GET'])
+def get_names():
+    """Get all names."""
+    cur = mysql.connect().cursor()
+    cur.execute('SELECT name FROM persons')
+    names = cur.fetchall()
+    cur.close()
 
-#     return jsonify(names)
+    return jsonify(names)
 
 
 @app.route('/api/<name>', methods=['GET'])
@@ -90,7 +90,7 @@ def update_name(name):
 
         # Check if the name was updated successfully
         if cur.rowcount == 1:
-            return jsonify({'message': 'Name updated', "name":new_name})
+            return jsonify({'message': 'Name updated successfully', "name":new_name})
         else:
             return jsonify({'error': 'Name not found'})
 
