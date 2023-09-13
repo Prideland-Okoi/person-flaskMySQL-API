@@ -91,7 +91,7 @@ def update_name(name):
         return jsonify({'error': 'Name must be a string'})
     else:
         data = request.get_json()
-        new_name = data.get('new_name')
+        new_name = data.get('name')
         #new_name = request.json.get('new_name')
         connection= mysql.connect()
         cursor = connection.cursor()
