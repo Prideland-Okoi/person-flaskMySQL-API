@@ -85,12 +85,12 @@ def update_name(name):
         new_name = data.get('new_name')
         #new_name = request.json.get('new_name')
         cur = mysql.connect().cursor()
-        cur.execute('UPDATE persons SET name = %s WHERE name = %s', [new_name, name])
+        cur.execute("""UPDATE persons SET name=%s WHERE name=%s"""(new_name, name))
         cur.close()
 
         # Check if the name was updated successfully
         if cur.rowcount == 1:
-            return jsonify({'message': 'Name updated'})
+            return jsonify({'message': 'Name updated', "name":new_name})
         else:
             return jsonify({'error': 'Name not found'})
 
