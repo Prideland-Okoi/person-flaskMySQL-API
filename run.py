@@ -69,9 +69,14 @@ def create_name():
             cur = mysql.connect().cursor()
             cur.execute('INSERT INTO persons (name) VALUES (%s)', [name])
             cur.close()
+            
+            # Commit changes to the database
+            db_connection.commit()
 
             return jsonify({'message': 'Name added to the database successfully', "name":name}), 201
     except Exception as e:
+        # Rollback changes if an error occurs
+        db_connection.rollback()
         return jsonify({"error": str(e)}), 500
 
 
