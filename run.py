@@ -70,7 +70,7 @@ def create_name():
         cur.execute('INSERT INTO persons (name) VALUES (%s)', [name])
         cur.close()
 
-        return jsonify({'message': 'Name added to the database successfully'}), 201
+        return jsonify({'message': 'Name added to the database successfully', "name":name}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
