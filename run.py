@@ -28,7 +28,7 @@ def is_valid_name(name):
 def get_names():
     """Get all names."""
     cur = mysql.connect().cursor()
-    cur.execute('SELECT name FROM persons')
+    cur.execute('SELECT * FROM persons')
     names = cur.fetchall()
     cur.close()
 
@@ -64,13 +64,13 @@ def create_name():
         # Validate the name
         if not isinstance(name, str) or  not name.isalpha(): # and len(name) > 2:
             return jsonify({'error': 'Name must be a string'}), 400
+        else:
+            # Insert the name into the database
+            cur = mysql.connect().cursor()
+            cur.execute('INSERT INTO persons (name) VALUES (%s)', [name])
+            cur.close()
 
-        # Insert the name into the database
-        cur = mysql.connect().cursor()
-        cur.execute('INSERT INTO persons (name) VALUES (%s)', [name])
-        cur.close()
-
-        return jsonify({'message': 'Name added to the database successfully', "name":name}), 201
+            return jsonify({'message': 'Name added to the database successfully', "name":name}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
