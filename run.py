@@ -19,6 +19,8 @@ app.config['MYSQL_DATABASE_PASSWORD'] = os.getenv('MYSQL_DATABASE_PASSWORD')
 app.config['MYSQL_DATABASE_DB'] = os.getenv('MYSQL_DATABASE_DB')
 app.config['MYSQL_DATABASE_HOST'] = os.getenv('MYSQL_DATABASE_HOST')
 mysql = MySQL(app)
+# con = mysql.connect()
+# cursor = con.cursor()
 
 def is_valid_name(name):
     # validation logic for string input
@@ -71,7 +73,7 @@ def create_name():
             cur.close()
             
             # Commit changes to the database
-            db_connection.commit()
+            mysql.commit()
 
             return jsonify({'message': 'Name added to the database successfully', "name":name}), 201
     except Exception as e:
